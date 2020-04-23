@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { Button, Typography, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import { colors } from "./services";
+import Editor from "./components/Editor";
+import FileViewer from "./components/FileViewer";
+import Options from "./components/Options";
 
 const useStyles = makeStyles({
   root: {
@@ -11,6 +14,9 @@ const useStyles = makeStyles({
     left: "0",
     top: "0",
     overflow: "hidden",
+
+    display: "flex",
+    flexDirection: "row",
   },
 });
 
@@ -25,7 +31,9 @@ const App = () => {
 
   return (
     <div className={classes.root}>
-      {/* stuff */}
+      <Editor />
+      <FileViewer />
+      <Options />
       {/* stuff */}
     </div>
   );
