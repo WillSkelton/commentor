@@ -1,4 +1,4 @@
 import { request } from "./rest.js";
-import { colors } from "./colors.js";
+import { colors, pallet } from "./colors.js";
 
-export { request, colors };
+export { request, colors, pallet };

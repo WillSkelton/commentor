@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core";
-import { colors } from "./services";
+import { makeStyles, createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { colors, pallet } from "./services";
+
 import Editor from "./components/Editor";
 import FileViewer from "./components/FileViewer";
 import Options from "./components/Options";
@@ -20,6 +21,8 @@ const useStyles = makeStyles({
   },
 });
 
+const theme = createMuiTheme(pallet);
+
 const App = () => {
   const [value, setValue] = useState("Howdy Partner!");
 
@@ -30,12 +33,13 @@ const App = () => {
   };
 
   return (
-    <div className={classes.root}>
-      <Editor />
-      <FileViewer />
-      <Options />
-      {/* stuff */}
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className={classes.root}>
+        <FileViewer />
+        <Editor />
+        <Options />
+      </div>
+    </ThemeProvider>
   );
 };
 

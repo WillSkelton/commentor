@@ -1,28 +1,47 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, TextField } from "@material-ui/core";
 import { colors } from "../../services";
 
 const useStyles = makeStyles({
   root: {
-    backgroundColor: colors.slate,
+    border: `4px solid ${colors.slate}`,
+
     height: "100%",
-    width: "20%",
+    width: "60%",
+    padding: "8px",
+    boxSizing: "border-box",
+  },
+  textField: {},
+  textFieldBigInput: {},
+  textFieldLittleInput: {
+    border: `2px solid ${colors.blue}`,
+    borderRadius: "4px",
+  },
+  textFieldInputLabel: {
+    color: colors.blue,
+    backgroundColor: colors.backgroundGray,
   },
 });
 
 const Editor = () => {
-  const [value, setValue] = useState("Howdy Partner!");
-
   const classes = useStyles();
-
-  const handleClick = () => {
-    setValue(value === "Howdy Partner!" ? "Yee Haw!" : "Howdy Partner!");
-  };
 
   return (
     <div className={classes.root}>
-      {/* stuff */}
-      {/* stuff */}
+      <TextField
+        className={classes.textField}
+        variant='outlined'
+        color='secondary'
+        label='Yeet'
+        InputLabelProps={{
+          className: classes.textFieldInputLabel,
+          shrink: "true",
+        }}
+        InputProps={{}}
+        inputProps={{
+          className: classes.textFieldLittleInput,
+        }}
+      ></TextField>
     </div>
   );
 };
