@@ -19,12 +19,12 @@ const useStyles = makeStyles({
   },
   textField: {
     width: "100%",
+    minHeight: "60px",
   },
   textFieldBigInput: {
     width: "100%",
     padding: "0px",
-
-    // height: "40px",
+    minHeight: "60px",
   },
   textFieldLittleInput: {
     backgroundColor: colors.lightGrey,
@@ -32,6 +32,7 @@ const useStyles = makeStyles({
     width: "100%",
     border: `2px solid ${colors.slate}`,
     borderRadius: "4px",
+    minHeight: "60px",
   },
   list: {
     padding: "0px",
@@ -213,6 +214,7 @@ const Editor = () => {
               >
                 <TextField
                   multiline
+                  rowsMax={4}
                   className={classes.textField}
                   color='secondary'
                   variant='outlined'
