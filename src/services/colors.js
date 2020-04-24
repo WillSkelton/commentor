@@ -8,6 +8,7 @@ export const colors = {
   cyan: "#23a4a8",
   black: "#000000",
   white: "#dfdfdf",
+  lightGrey: "#bcbcbc",
   blue: "#2f77eb",
   purple: "#c92feb",
   green: "#2feb51",

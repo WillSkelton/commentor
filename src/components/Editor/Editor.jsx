@@ -1,28 +1,57 @@
 import React, { useState } from "react";
-import { makeStyles, TextField } from "@material-ui/core";
+import {
+  makeStyles,
+  TextField,
+  List,
+  ListItem,
+  Collapse,
+  ListSubheader,
+} from "@material-ui/core";
 import { colors } from "../../services";
 import Highlight from "react-highlight.js";
 
 const useStyles = makeStyles({
   root: {
     border: `4px solid ${colors.slate}`,
-
     height: "100%",
     width: "60%",
-    // padding: "8px",
     boxSizing: "border-box",
-    // overflowY: "scroll",
   },
-  textField: {},
-  textFieldBigInput: {},
+  textField: {
+    width: "100%",
+  },
+  textFieldBigInput: {
+    width: "100%",
+    padding: "0px",
+
+    // height: "40px",
+  },
   textFieldLittleInput: {
+    backgroundColor: colors.lightGrey,
+    padding: "0px",
+    width: "100%",
     border: `2px solid ${colors.slate}`,
     borderRadius: "4px",
   },
+  list: {
+    padding: "0px",
+    width: "100%",
+    height: "100%",
+  },
+  listItem: {
+    margin: "0px",
+    padding: "0px",
+    width: "100%",
+  },
   highlight: {
+    width: "100%",
+    height: "100%",
     margin: "0px",
     borderTop: `1px solid ${colors.slate}`,
     borderBottom: `1px solid ${colors.slate}`,
+  },
+  collapse: {
+    width: "100%",
   },
 });
 
@@ -146,34 +175,71 @@ const Editor = () => {
 
   const functions = [func1, func2, func3, func4, func5, func6, func7, func8];
 
-  const handleFocus = () => {
+  const [open, setOpen] = useState(-1);
+
+  const handleMouseEnter = () => {
     setScrollBar(true);
   };
 
-  const handleBlur = () => {
+  const handleMouseLeave = () => {
     setScrollBar(false);
+  };
+
+  const handleClick = (idx) => {
+    if (open == idx) {
+      setOpen(-1);
+    } else {
+      setOpen(idx);
+    }
   };
 
   return (
     <div
-      onMouseEnter={handleFocus}
-      onMouseLeave={handleBlur}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       className={classes.root}
       style={{
         overflowY: `${scrollBar ? "scroll" : "hidden"}`,
       }}
     >
-      {functions.map((func, idx) => {
-        return (
-          <Highlight
-            key={`${idx}`}
-            className={classes.highlight}
-            language={"cpp"}
-          >
-            {func}
-          </Highlight>
-        );
-      })}
+      <List component='nav' className={classes.list}>
+        {functions.map((func, idx) => {
+          return (
+            <div key={`div-${idx}`}>
+              <Collapse
+                key={`text-${idx}`}
+                in={open == idx}
+                // className={classes.collapse}
+              >
+                <TextField
+                  multiline
+                  className={classes.textField}
+                  color='secondary'
+                  variant='outlined'
+                  inputProps={{ className: classes.textFieldLittleInput }}
+                  InputProps={{ className: classes.textFieldBigInput }}
+                ></TextField>
+              </Collapse>
+              <ListItem
+                onClick={() => {
+                  handleClick(idx);
+                }}
+                className={classes.listItem}
+                key={`li-${idx}`}
+                value={idx}
+              >
+                <Highlight
+                  key={`code-${idx}`}
+                  className={classes.highlight}
+                  language={"cpp"}
+                >
+                  {func}
+                </Highlight>
+              </ListItem>
+            </div>
+          );
+        })}
+      </List>
     </div>
   );
 };
