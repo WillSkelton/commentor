@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     width: "60%",
     // padding: "8px",
     boxSizing: "border-box",
-    overflowY: "scroll",
+    // overflowY: "scroll",
   },
   textField: {},
   textFieldBigInput: {},
@@ -142,22 +142,27 @@ void printListL2R(Node *nodePtr) {
 const Editor = () => {
   const classes = useStyles();
 
+  const [scrollBar, setScrollBar] = useState(false);
+
   const functions = [func1, func2, func3, func4, func5, func6, func7, func8];
 
+  const handleFocus = () => {
+    setScrollBar(true);
+  };
+
+  const handleBlur = () => {
+    setScrollBar(false);
+  };
+
   return (
-    <div className={classes.root}>
-      {/* <TextField
-        className={classes.textField}
-        variant='outlined'
-        color='secondary'
-        InputProps={{}}
-        inputProps={{
-          className: classes.textFieldLittleInput,
-        }}
-      ></TextField> */}
-      {/* <Highlight className={classes.highlight} language={"cpp"}>
-        {code}
-      </Highlight> */}
+    <div
+      onMouseEnter={handleFocus}
+      onMouseLeave={handleBlur}
+      className={classes.root}
+      style={{
+        overflowY: `${scrollBar ? "scroll" : "hidden"}`,
+      }}
+    >
       {functions.map((func, idx) => {
         return (
           <Highlight
