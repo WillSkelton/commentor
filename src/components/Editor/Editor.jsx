@@ -9,8 +9,9 @@ const useStyles = makeStyles({
 
     height: "100%",
     width: "60%",
-    padding: "8px",
+    // padding: "8px",
     boxSizing: "border-box",
+    overflowY: "scroll",
   },
   textField: {},
   textFieldBigInput: {},
@@ -18,48 +19,130 @@ const useStyles = makeStyles({
     border: `2px solid ${colors.slate}`,
     borderRadius: "4px",
   },
+  highlight: {
+    margin: "0px",
+    borderTop: `1px solid ${colors.slate}`,
+    borderBottom: `1px solid ${colors.slate}`,
+  },
 });
 
-const code = `
-package api
-
-import (
-	"fmt"
-	"log"
-	"net/http"
-)
-
-const (
-	port         = "42201"
-	tempHomePage = \`
-	<h1>Welcome to the Commentor Homepage</h1>
-	<p>There isn't much here now but there will be soon.</p>
-	\`
-)
-
-func homePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Endpoint hit: /homepage")
-	fmt.Fprintf(w, tempHomePage)
+const func1 = `
+void initList(List *l) {
+	l->head = NULL;
+	l->tail = NULL;
+	l->length = 0;
 }
+`;
+const func2 = `
+void newRecord(Record *r, char artist[30], char album[30], char song[30], char genre[15],
+	int minutes, int seconds, int timesPlayed, Rating rating) {
 
-func handleRequests() {
-	// This tells the server to run the function homePage when a request is sent to
-	// "/" which is the home page
-	http.HandleFunc("/", homePage)
+	static unsigned long id = 0;
 
-	fmt.Println("Listening on port: 42201")
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	strcpy(r->artist, artist);
+	strcpy(r->album, album);
+	strcpy(r->song, song);
+	strcpy(r->genre, genre);
+
+	Duration d = { minutes, seconds };
+	r->duration = d;
+	r->timesPlayed = timesPlayed;
+	r->rating = rating;
+	r->id = id;
+
+	++id;
+
 }
+`;
+const func3 = `
+Node* newNode(Record newRecord) {
 
-// Start will setup the routes and their respective functions as well as telling the
-// server which port to listen on
-func Start() {
-	handleRequests()
+	Node *tempPtr = NULL;
+
+	tempPtr = (Node *)malloc(sizeof(Node));
+
+	if (tempPtr != NULL) {
+		tempPtr->record = newRecord;
+		tempPtr->pNext = NULL;
+		tempPtr->pPrev = NULL;
+
+	}
+
+	return tempPtr;
+}
+`;
+const func4 = `
+void printListL2R(Node *nodePtr) {
+	printf("---> ");
+
+	if (nodePtr != NULL) {
+
+		printf("\"%s\" ", nodePtr->record.song);
+		printListL2R(nodePtr->pNext);
+	}
+}
+`;
+const func5 = `
+void initList(List *l) {
+	l->head = NULL;
+	l->tail = NULL;
+	l->length = 0;
+}
+`;
+const func6 = `
+void newRecord(Record *r, char artist[30], char album[30], char song[30], char genre[15],
+	int minutes, int seconds, int timesPlayed, Rating rating) {
+
+	static unsigned long id = 0;
+
+	strcpy(r->artist, artist);
+	strcpy(r->album, album);
+	strcpy(r->song, song);
+	strcpy(r->genre, genre);
+
+	Duration d = { minutes, seconds };
+	r->duration = d;
+	r->timesPlayed = timesPlayed;
+	r->rating = rating;
+	r->id = id;
+
+	++id;
+
+}
+`;
+const func7 = `
+Node* newNode(Record newRecord) {
+
+	Node *tempPtr = NULL;
+
+	tempPtr = (Node *)malloc(sizeof(Node));
+
+	if (tempPtr != NULL) {
+		tempPtr->record = newRecord;
+		tempPtr->pNext = NULL;
+		tempPtr->pPrev = NULL;
+
+	}
+
+	return tempPtr;
+}
+`;
+const func8 = `
+void printListL2R(Node *nodePtr) {
+	printf("---> ");
+
+	if (nodePtr != NULL) {
+
+		printf("\"%s\" ", nodePtr->record.song);
+		printListL2R(nodePtr->pNext);
+	}
 }
 `;
 
 const Editor = () => {
   const classes = useStyles();
+
+  const functions = [func1, func2, func3, func4, func5, func6, func7, func8];
 
   return (
     <div className={classes.root}>
@@ -72,7 +155,20 @@ const Editor = () => {
           className: classes.textFieldLittleInput,
         }}
       ></TextField> */}
-      <Highlight language={"go"}>{code}</Highlight>
+      {/* <Highlight className={classes.highlight} language={"cpp"}>
+        {code}
+      </Highlight> */}
+      {functions.map((func, idx) => {
+        return (
+          <Highlight
+            key={`${idx}`}
+            className={classes.highlight}
+            language={"cpp"}
+          >
+            {func}
+          </Highlight>
+        );
+      })}
     </div>
   );
 };
