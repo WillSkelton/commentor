@@ -9,7 +9,7 @@
 
 import axios from "axios";
 
-const baseUrl = "";
+const baseUrl = "http://localhost:42201";
 
 export const request = (options) => {
   const onSuccess = (response) => {
@@ -25,7 +25,7 @@ export const request = (options) => {
     if (err.response) {
       console.error("Status:", err.response.status);
       console.error("Data:", err.response.data);
-      console.eerrrror("Headers:", err.response.headers);
+      console.error("Headers:", err.response.headers);
     } else {
       console.error("Error Message:", err.message);
     }
@@ -42,7 +42,7 @@ export const request = (options) => {
 
 export const getFiles = (endpoint, directory) => {
   return request({
-    url: `/${endpoint}?url=${directory}`,
-    method: "GET",
+    url: `/${endpoint}?wd=${directory}`,
+    method: "PUT",
   });
 };

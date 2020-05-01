@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core";
-import { colors } from "../../services";
+import { makeStyles, Button } from "@material-ui/core";
+import { colors, getFiles } from "../../services";
 
 const useStyles = makeStyles({
   root: {
@@ -13,7 +13,22 @@ const useStyles = makeStyles({
 const FileViewer = () => {
   const classes = useStyles();
 
-  return <div className={classes.root}></div>;
+  const handleClick = () => {
+    getFiles(
+      "opendirectory",
+      "C:\\Users\\Willi\\projects\\wsu\\322-commentor\\src"
+    ).catch((err) => {
+      console.log(err);
+    });
+  };
+
+  return (
+    <div className={classes.root}>
+      <Button variant='contained' color='primary' onClick={handleClick}>
+        Yeet
+      </Button>
+    </div>
+  );
 };
 
 export default FileViewer;

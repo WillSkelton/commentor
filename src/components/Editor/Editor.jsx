@@ -5,7 +5,6 @@ import {
   List,
   ListItem,
   Collapse,
-  ListSubheader,
 } from "@material-ui/core";
 import { colors } from "../../services";
 import Highlight from "react-highlight.js";
@@ -19,12 +18,10 @@ const useStyles = makeStyles({
   },
   textField: {
     width: "100%",
-    minHeight: "60px",
   },
   textFieldBigInput: {
     width: "100%",
     padding: "0px",
-    minHeight: "60px",
   },
   textFieldLittleInput: {
     backgroundColor: colors.lightGrey,
@@ -32,7 +29,7 @@ const useStyles = makeStyles({
     width: "100%",
     border: `2px solid ${colors.slate}`,
     borderRadius: "4px",
-    minHeight: "60px",
+    minHeight: "40px",
   },
   list: {
     padding: "0px",
@@ -107,7 +104,7 @@ void printListL2R(Node *nodePtr) {
 
 	if (nodePtr != NULL) {
 
-		printf("\"%s\" ", nodePtr->record.song);
+		printf("%s ", nodePtr->record.song);
 		printListL2R(nodePtr->pNext);
 	}
 }
@@ -163,7 +160,7 @@ void printListL2R(Node *nodePtr) {
 
 	if (nodePtr != NULL) {
 
-		printf("\"%s\" ", nodePtr->record.song);
+		printf("%s ", nodePtr->record.song);
 		printListL2R(nodePtr->pNext);
 	}
 }
@@ -187,7 +184,7 @@ const Editor = () => {
   };
 
   const handleClick = (idx) => {
-    if (open == idx) {
+    if (open === idx) {
       setOpen(-1);
     } else {
       setOpen(idx);
@@ -209,16 +206,19 @@ const Editor = () => {
             <div key={`div-${idx}`}>
               <Collapse
                 key={`text-${idx}`}
-                in={open == idx}
+                in={open === idx}
                 // className={classes.collapse}
               >
                 <TextField
+                  placeholder='Add Comment Here'
                   multiline
-                  rowsMax={4}
+                  rowsMax={3}
                   className={classes.textField}
                   color='secondary'
                   variant='outlined'
-                  inputProps={{ className: classes.textFieldLittleInput }}
+                  inputProps={{
+                    className: classes.textFieldLittleInput,
+                  }}
                   InputProps={{ className: classes.textFieldBigInput }}
                 ></TextField>
               </Collapse>
