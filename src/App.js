@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles, createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { colors, pallet } from "./services";
 
@@ -24,13 +24,7 @@ const useStyles = makeStyles({
 const theme = createMuiTheme(pallet);
 
 const App = () => {
-  const [value, setValue] = useState("Howdy Partner!");
-
   const classes = useStyles();
-
-  const handleClick = () => {
-    setValue(value === "Howdy Partner!" ? "Yee Haw!" : "Howdy Partner!");
-  };
 
   return (
     <ThemeProvider theme={theme}>

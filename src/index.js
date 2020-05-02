@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { colors } from "./services";
 
 document.getElementsByTagName("html")[0].style.height = "100%";
 document.getElementsByTagName("html")[0].style.width = "100%";

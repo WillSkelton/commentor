@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles, Button } from "@material-ui/core";
-import { colors, getFiles } from "../../services";
+import { getFiles } from "../../services";
 
 const useStyles = makeStyles({
   root: {
@@ -16,7 +16,7 @@ const FileViewer = () => {
   const handleClick = () => {
     getFiles(
       "opendirectory",
-      "C:\\Users\\Willi\\projects\\wsu\\322-commentor\\src"
+      "/home/will/projects/go/src/commentor-backend/.testDirectories"
     ).catch((err) => {
       console.log(err);
     });
@@ -24,7 +24,7 @@ const FileViewer = () => {
 
   return (
     <div className={classes.root}>
-      <Button variant='contained' color='primary' onClick={handleClick}>
+      <Button variant="contained" color="primary" onClick={handleClick}>
         Yeet
       </Button>
     </div>
