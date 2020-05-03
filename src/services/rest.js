@@ -43,6 +43,6 @@ export const request = (options) => {
 export const getFiles = (endpoint, directory) => {
   return request({
     url: `/${endpoint}?wd=${directory}`,
-    method: "PUT",
+    method: "GET",
   });
 };

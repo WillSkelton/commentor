@@ -17,9 +17,13 @@ const FileViewer = () => {
     getFiles(
       "opendirectory",
       "/home/will/projects/go/src/commentor-backend/.testDirectories"
-    ).catch((err) => {
-      console.log(err);
-    });
+    )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
