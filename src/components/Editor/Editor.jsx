@@ -196,54 +196,52 @@ const Editor = (props) => {
   };
 
   const test = fileList.map((value, idx) => {
+    console.log(1);
     return <h1>{value}</h1>;
   });
 
-  const generateFunctions = () => {
-    return Object.keys(files).map((funcID, idx) => {
-      console.log(1);
-      // console.log(funcID);
-      // console.log(files[funcID]);
-      // return (
-      //   <div key={`div-${idx}`}>
-      //     <Collapse
-      //       key={`text-${idx}`}
-      //       in={open === idx}
-      //       // className={classes.collapse}
-      //     >
-      //       <TextField
-      //         placeholder="Add Comment Here"
-      //         multiline
-      //         rowsMax={3}
-      //         className={classes.textField}
-      //         color="secondary"
-      //         variant="outlined"
-      //         inputProps={{
-      //           className: classes.textFieldLittleInput,
-      //         }}
-      //         InputProps={{ className: classes.textFieldBigInput }}
-      //       ></TextField>
-      //     </Collapse>
-      //     <ListItem
-      //       onClick={() => {
-      //         handleClick(idx);
-      //       }}
-      //       className={classes.listItem}
-      //       key={`li-${idx}`}
-      //       value={idx}
-      //     >
-      //       <Highlight
-      //         key={`code-${idx}`}
-      //         className={classes.highlight}
-      //         language={"cpp"}
-      //       >
-      //         {func}
-      //       </Highlight>
-      //     </ListItem>
-      //   </div>
-      // );
-    });
-  };
+  const generateFunctions = fileList.map((funcID, idx) => {
+    console.log(funcID);
+    console.log(files[funcID]);
+    return (
+      <div key={`div-${funcID}`}>
+        <Collapse
+          key={`text-${funcID}`}
+          in={open === funcID}
+          // className={classes.collapse}
+        >
+          <TextField
+            placeholder="Add Comment Here"
+            multiline
+            rowsMax={3}
+            className={classes.textField}
+            color="secondary"
+            variant="outlined"
+            inputProps={{
+              className: classes.textFieldLittleInput,
+            }}
+            InputProps={{ className: classes.textFieldBigInput }}
+          ></TextField>
+        </Collapse>
+        <ListItem
+          onClick={() => {
+            handleClick(funcID);
+          }}
+          className={classes.listItem}
+          key={`li-${funcID}`}
+          value={funcID}
+        >
+          <Highlight
+            key={`code-${funcID}`}
+            className={classes.highlight}
+            language={"go"}
+          >
+            {files[funcID].Contents}
+          </Highlight>
+        </ListItem>
+      </div>
+    );
+  });
 
   return (
     <div
@@ -255,7 +253,7 @@ const Editor = (props) => {
       }}
     >
       <List component="nav" className={classes.list}>
-        {test}
+        {generateFunctions}
       </List>
     </div>
   );
