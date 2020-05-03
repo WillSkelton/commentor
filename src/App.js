@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { colors, pallet } from "./services";
 
@@ -23,14 +23,23 @@ const useStyles = makeStyles({
 
 const theme = createMuiTheme(pallet);
 
+// let files = {};
+
 const App = () => {
   const classes = useStyles();
+
+  const [files, setFiles] = useState({});
+
+  const updateEditor = (newFiles) => {
+    setFiles(newFiles);
+    // files = newFiles;
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
-        <FileViewer />
-        <Editor />
+        <FileViewer files={files} updateEditor={updateEditor} />
+        <Editor files={files} />
         <Options />
       </div>
     </ThemeProvider>

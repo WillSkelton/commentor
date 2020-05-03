@@ -166,12 +166,16 @@ void printListL2R(Node *nodePtr) {
 }
 `;
 
-const Editor = () => {
+const Editor = (props) => {
+  const { files } = props;
+
+  const fileList = Object.keys(files);
+
   const classes = useStyles();
 
   const [scrollBar, setScrollBar] = useState(false);
 
-  const functions = [func1, func2, func3, func4, func5, func6, func7, func8];
+  // const functions = [func1, func2, func3, func4, func5, func6, func7, func8];
 
   const [open, setOpen] = useState(-1);
 
@@ -191,6 +195,56 @@ const Editor = () => {
     }
   };
 
+  const test = fileList.map((value, idx) => {
+    return <h1>{value}</h1>;
+  });
+
+  const generateFunctions = () => {
+    return Object.keys(files).map((funcID, idx) => {
+      console.log(1);
+      // console.log(funcID);
+      // console.log(files[funcID]);
+      // return (
+      //   <div key={`div-${idx}`}>
+      //     <Collapse
+      //       key={`text-${idx}`}
+      //       in={open === idx}
+      //       // className={classes.collapse}
+      //     >
+      //       <TextField
+      //         placeholder="Add Comment Here"
+      //         multiline
+      //         rowsMax={3}
+      //         className={classes.textField}
+      //         color="secondary"
+      //         variant="outlined"
+      //         inputProps={{
+      //           className: classes.textFieldLittleInput,
+      //         }}
+      //         InputProps={{ className: classes.textFieldBigInput }}
+      //       ></TextField>
+      //     </Collapse>
+      //     <ListItem
+      //       onClick={() => {
+      //         handleClick(idx);
+      //       }}
+      //       className={classes.listItem}
+      //       key={`li-${idx}`}
+      //       value={idx}
+      //     >
+      //       <Highlight
+      //         key={`code-${idx}`}
+      //         className={classes.highlight}
+      //         language={"cpp"}
+      //       >
+      //         {func}
+      //       </Highlight>
+      //     </ListItem>
+      //   </div>
+      // );
+    });
+  };
+
   return (
     <div
       onMouseEnter={handleMouseEnter}
@@ -200,47 +254,8 @@ const Editor = () => {
         overflowY: `${scrollBar ? "scroll" : "hidden"}`,
       }}
     >
-      <List component='nav' className={classes.list}>
-        {functions.map((func, idx) => {
-          return (
-            <div key={`div-${idx}`}>
-              <Collapse
-                key={`text-${idx}`}
-                in={open === idx}
-                // className={classes.collapse}
-              >
-                <TextField
-                  placeholder='Add Comment Here'
-                  multiline
-                  rowsMax={3}
-                  className={classes.textField}
-                  color='secondary'
-                  variant='outlined'
-                  inputProps={{
-                    className: classes.textFieldLittleInput,
-                  }}
-                  InputProps={{ className: classes.textFieldBigInput }}
-                ></TextField>
-              </Collapse>
-              <ListItem
-                onClick={() => {
-                  handleClick(idx);
-                }}
-                className={classes.listItem}
-                key={`li-${idx}`}
-                value={idx}
-              >
-                <Highlight
-                  key={`code-${idx}`}
-                  className={classes.highlight}
-                  language={"cpp"}
-                >
-                  {func}
-                </Highlight>
-              </ListItem>
-            </div>
-          );
-        })}
+      <List component="nav" className={classes.list}>
+        {test}
       </List>
     </div>
   );

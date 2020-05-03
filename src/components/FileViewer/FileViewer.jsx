@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, Button } from "@material-ui/core";
 import { getFiles } from "../../services";
 
@@ -10,7 +10,8 @@ const useStyles = makeStyles({
   },
 });
 
-const FileViewer = () => {
+const FileViewer = (props) => {
+  const { updateEditor, files } = props;
   const classes = useStyles();
 
   const handleClick = () => {
@@ -19,7 +20,8 @@ const FileViewer = () => {
       "/home/will/projects/go/src/commentor-backend/.testDirectories"
     )
       .then((res) => {
-        console.log(res);
+        console.log("here");
+        updateEditor(res);
       })
       .catch((err) => {
         console.log(err);
