@@ -23,19 +23,13 @@ const useStyles = makeStyles({
 
 const theme = createMuiTheme(pallet);
 
-let test = {};
-
 const App = () => {
   const classes = useStyles();
 
   const [files, setFiles] = useState({});
 
   const updateEditor = (newFiles) => {
-    console.log("updateEditor");
-    console.log(newFiles);
-
     setFiles(newFiles);
-    test = newFiles;
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles, Button } from "@material-ui/core";
 import { getFiles } from "../../services";
 
@@ -15,17 +15,14 @@ const FileViewer = (props) => {
   const classes = useStyles();
 
   const handleClick = () => {
-    console.log("handleClick");
     getFiles(
       "opendirectory",
       "/home/will/projects/go/src/commentor-backend/.testDirectories"
     )
       .then((res) => {
-        console.log("getFiles.then");
         updateEditor(res);
       })
       .catch((err) => {
-        console.log("getFiles.catch");
         console.log(err);
       });
   };

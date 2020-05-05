@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles, List } from "@material-ui/core";
 import { colors } from "../../services";
 import { CodeBlock } from "./";
@@ -50,47 +50,25 @@ const useStyles = makeStyles({
 });
 
 const Editor = (props) => {
-  console.log("Editor Rerender");
-
   const { files } = props;
 
   const fileList = Object.keys(files);
 
   const classes = useStyles();
 
-  // const [scrollBar, setScrollBar] = useState(false);
-
-  // const handleMouseEnter = () => {
-  //   setScrollBar(true);
-  // };
-
-  // const handleMouseLeave = () => {
-  //   setScrollBar(false);
-  // };
-
   const generateFunctions = fileList.map((funcID, idx) => {
-    if (idx == 0) {
-      console.log("generateFunctions");
-    }
-
     return (
       <CodeBlock
-        language={"go"}
-        key={funcID}
+        key={`block-${funcID}`}
+        componentKey={funcID}
         contents={files[funcID].Contents}
+        language={"go"}
       ></CodeBlock>
     );
   });
 
   return (
-    <div
-      className={classes.root}
-      // onMouseEnter={handleMouseEnter}
-      // onMouseLeave={handleMouseLeave}
-      // style={{
-      //   overflowY: `${scrollBar ? "scroll" : "hidden"}`,
-      // }}
-    >
+    <div className={classes.root}>
       <List component="nav" className={classes.list}>
         {generateFunctions}
       </List>

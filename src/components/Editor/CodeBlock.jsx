@@ -4,12 +4,6 @@ import { colors } from "../../services";
 import Highlight from "react-highlight.js";
 
 const useStyles = makeStyles({
-  root: {
-    border: `4px solid ${colors.slate}`,
-    height: "100%",
-    width: "60%",
-    boxSizing: "border-box",
-  },
   textField: {
     width: "100%",
   },
@@ -48,7 +42,7 @@ const useStyles = makeStyles({
 });
 
 const CodeBlock = (props) => {
-  const { key, contents, language } = props;
+  const { componentKey, contents, language } = props;
 
   const classes = useStyles();
 
@@ -63,10 +57,10 @@ const CodeBlock = (props) => {
   };
 
   return (
-    <div key={`div-${key}`}>
+    <div key={`div-${componentKey}`}>
       <Collapse
-        key={`text-${key}`}
-        in={open === key}
+        key={`text-${componentKey}`}
+        in={open === componentKey}
         // className={classes.collapse}
       >
         <TextField
@@ -84,14 +78,14 @@ const CodeBlock = (props) => {
       </Collapse>
       <ListItem
         onClick={() => {
-          handleClick(key);
+          handleClick(componentKey);
         }}
         className={classes.listItem}
-        key={`li-${key}`}
-        value={key}
+        key={`li-${componentKey}`}
+        value={componentKey}
       >
         <Highlight
-          key={`code-${key}`}
+          key={`code-${componentKey}`}
           className={classes.highlight}
           language={language}
         >
