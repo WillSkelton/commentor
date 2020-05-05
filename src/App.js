@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles, createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { colors, pallet } from "./services";
 
-import Editor from "./components/Editor";
+import { Editor } from "./components/Editor";
 import FileViewer from "./components/FileViewer";
 import Options from "./components/Options";
 
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 
 const theme = createMuiTheme(pallet);
 
-// let files = {};
+let test = {};
 
 const App = () => {
   const classes = useStyles();
@@ -31,8 +31,11 @@ const App = () => {
   const [files, setFiles] = useState({});
 
   const updateEditor = (newFiles) => {
+    console.log("updateEditor");
+    console.log(newFiles);
+
     setFiles(newFiles);
-    // files = newFiles;
+    test = newFiles;
   };
 
   return (

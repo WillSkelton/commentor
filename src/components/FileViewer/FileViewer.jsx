@@ -11,19 +11,21 @@ const useStyles = makeStyles({
 });
 
 const FileViewer = (props) => {
-  const { updateEditor, files } = props;
+  const { updateEditor } = props;
   const classes = useStyles();
 
   const handleClick = () => {
+    console.log("handleClick");
     getFiles(
       "opendirectory",
       "/home/will/projects/go/src/commentor-backend/.testDirectories"
     )
       .then((res) => {
-        console.log("here");
+        console.log("getFiles.then");
         updateEditor(res);
       })
       .catch((err) => {
+        console.log("getFiles.catch");
         console.log(err);
       });
   };

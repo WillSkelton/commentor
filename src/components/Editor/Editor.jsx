@@ -1,13 +1,7 @@
 import React, { useState } from "react";
-import {
-  makeStyles,
-  TextField,
-  List,
-  ListItem,
-  Collapse,
-} from "@material-ui/core";
+import { makeStyles, List } from "@material-ui/core";
 import { colors } from "../../services";
-import Highlight from "react-highlight.js";
+import { CodeBlock } from "./";
 
 const useStyles = makeStyles({
   root: {
@@ -15,6 +9,8 @@ const useStyles = makeStyles({
     height: "100%",
     width: "60%",
     boxSizing: "border-box",
+    overflow: "auto",
+    backgroundColor: colors.black,
   },
   textField: {
     width: "100%",
@@ -53,204 +49,47 @@ const useStyles = makeStyles({
   },
 });
 
-const func1 = `
-void initList(List *l) {
-	l->head = NULL;
-	l->tail = NULL;
-	l->length = 0;
-}
-`;
-const func2 = `
-void newRecord(Record *r, char artist[30], char album[30], char song[30], char genre[15],
-	int minutes, int seconds, int timesPlayed, Rating rating) {
-
-	static unsigned long id = 0;
-
-	strcpy(r->artist, artist);
-	strcpy(r->album, album);
-	strcpy(r->song, song);
-	strcpy(r->genre, genre);
-
-	Duration d = { minutes, seconds };
-	r->duration = d;
-	r->timesPlayed = timesPlayed;
-	r->rating = rating;
-	r->id = id;
-
-	++id;
-
-}
-`;
-const func3 = `
-Node* newNode(Record newRecord) {
-
-	Node *tempPtr = NULL;
-
-	tempPtr = (Node *)malloc(sizeof(Node));
-
-	if (tempPtr != NULL) {
-		tempPtr->record = newRecord;
-		tempPtr->pNext = NULL;
-		tempPtr->pPrev = NULL;
-
-	}
-
-	return tempPtr;
-}
-`;
-const func4 = `
-void printListL2R(Node *nodePtr) {
-	printf("---> ");
-
-	if (nodePtr != NULL) {
-
-		printf("%s ", nodePtr->record.song);
-		printListL2R(nodePtr->pNext);
-	}
-}
-`;
-const func5 = `
-void initList(List *l) {
-	l->head = NULL;
-	l->tail = NULL;
-	l->length = 0;
-}
-`;
-const func6 = `
-void newRecord(Record *r, char artist[30], char album[30], char song[30], char genre[15],
-	int minutes, int seconds, int timesPlayed, Rating rating) {
-
-	static unsigned long id = 0;
-
-	strcpy(r->artist, artist);
-	strcpy(r->album, album);
-	strcpy(r->song, song);
-	strcpy(r->genre, genre);
-
-	Duration d = { minutes, seconds };
-	r->duration = d;
-	r->timesPlayed = timesPlayed;
-	r->rating = rating;
-	r->id = id;
-
-	++id;
-
-}
-`;
-const func7 = `
-Node* newNode(Record newRecord) {
-
-	Node *tempPtr = NULL;
-
-	tempPtr = (Node *)malloc(sizeof(Node));
-
-	if (tempPtr != NULL) {
-		tempPtr->record = newRecord;
-		tempPtr->pNext = NULL;
-		tempPtr->pPrev = NULL;
-
-	}
-
-	return tempPtr;
-}
-`;
-const func8 = `
-void printListL2R(Node *nodePtr) {
-	printf("---> ");
-
-	if (nodePtr != NULL) {
-
-		printf("%s ", nodePtr->record.song);
-		printListL2R(nodePtr->pNext);
-	}
-}
-`;
-
 const Editor = (props) => {
+  console.log("Editor Rerender");
+
   const { files } = props;
 
   const fileList = Object.keys(files);
 
   const classes = useStyles();
 
-  const [scrollBar, setScrollBar] = useState(false);
+  // const [scrollBar, setScrollBar] = useState(false);
 
-  // const functions = [func1, func2, func3, func4, func5, func6, func7, func8];
+  // const handleMouseEnter = () => {
+  //   setScrollBar(true);
+  // };
 
-  const [open, setOpen] = useState(-1);
-
-  const handleMouseEnter = () => {
-    setScrollBar(true);
-  };
-
-  const handleMouseLeave = () => {
-    setScrollBar(false);
-  };
-
-  const handleClick = (idx) => {
-    if (open === idx) {
-      setOpen(-1);
-    } else {
-      setOpen(idx);
-    }
-  };
-
-  const test = fileList.map((value, idx) => {
-    console.log(1);
-    return <h1>{value}</h1>;
-  });
+  // const handleMouseLeave = () => {
+  //   setScrollBar(false);
+  // };
 
   const generateFunctions = fileList.map((funcID, idx) => {
-    console.log(funcID);
-    console.log(files[funcID]);
+    if (idx == 0) {
+      console.log("generateFunctions");
+    }
+
     return (
-      <div key={`div-${funcID}`}>
-        <Collapse
-          key={`text-${funcID}`}
-          in={open === funcID}
-          // className={classes.collapse}
-        >
-          <TextField
-            placeholder="Add Comment Here"
-            multiline
-            rowsMax={3}
-            className={classes.textField}
-            color="secondary"
-            variant="outlined"
-            inputProps={{
-              className: classes.textFieldLittleInput,
-            }}
-            InputProps={{ className: classes.textFieldBigInput }}
-          ></TextField>
-        </Collapse>
-        <ListItem
-          onClick={() => {
-            handleClick(funcID);
-          }}
-          className={classes.listItem}
-          key={`li-${funcID}`}
-          value={funcID}
-        >
-          <Highlight
-            key={`code-${funcID}`}
-            className={classes.highlight}
-            language={"go"}
-          >
-            {files[funcID].Contents}
-          </Highlight>
-        </ListItem>
-      </div>
+      <CodeBlock
+        language={"go"}
+        key={funcID}
+        contents={files[funcID].Contents}
+      ></CodeBlock>
     );
   });
 
   return (
     <div
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       className={classes.root}
-      style={{
-        overflowY: `${scrollBar ? "scroll" : "hidden"}`,
-      }}
+      // onMouseEnter={handleMouseEnter}
+      // onMouseLeave={handleMouseLeave}
+      // style={{
+      //   overflowY: `${scrollBar ? "scroll" : "hidden"}`,
+      // }}
     >
       <List component="nav" className={classes.list}>
         {generateFunctions}
