@@ -19,15 +19,11 @@ const useStyles = makeStyles({
     borderRadius: "4px",
     minHeight: "40px",
   },
-  list: {
-    padding: "0px",
-    width: "100%",
-    height: "100%",
-  },
   listItem: {
     margin: "0px",
     padding: "0px",
     width: "100%",
+    overflowX: "hidden",
   },
   highlight: {
     width: "100%",
@@ -88,6 +84,9 @@ const CodeBlock = (props) => {
           key={`code-${componentKey}`}
           className={classes.highlight}
           language={language}
+          styles={{
+            "overflow-x": "hidden",
+          }}
         >
           {contents}
         </Highlight>

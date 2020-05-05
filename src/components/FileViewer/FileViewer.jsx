@@ -11,8 +11,19 @@ const useStyles = makeStyles({
 });
 
 const FileViewer = (props) => {
-  const { updateEditor } = props;
+  const { updateFiles } = props;
   const classes = useStyles();
+
+  const sort = (files) => {
+    let sortedFiles = {};
+    Object.keys(files).map((FileID, idx) => {
+      if (!sortedFiles[files[FileID].Path]) {
+        sortedFiles[files[FileID].Path] = [];
+      }
+      sortedFiles[files[FileID].Path] = files[FileID].Functions;
+    });
+    return sortedFiles;
+  };
 
   const handleClick = () => {
     getFiles(
@@ -20,7 +31,9 @@ const FileViewer = (props) => {
       "/home/will/projects/go/src/commentor-backend/.testDirectories"
     )
       .then((res) => {
-        updateEditor(res);
+        // console.log(res);
+        console.log(sort(res));
+        updateFiles(sort(res));
       })
       .catch((err) => {
         console.log(err);

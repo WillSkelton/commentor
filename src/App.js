@@ -27,16 +27,27 @@ const App = () => {
   const classes = useStyles();
 
   const [files, setFiles] = useState({});
+  const [activeFile, setActiveFile] = useState({});
 
-  const updateEditor = (newFiles) => {
+  const updateFiles = (newFiles) => {
+    console.log(
+      newFiles[
+        "/home/will/projects/go/src/commentor-backend/.testDirectories/yeet.go"
+      ]
+    );
     setFiles(newFiles);
+    setActiveFile(
+      newFiles[
+        "/home/will/projects/go/src/commentor-backend/.testDirectories/yeet.go"
+      ]
+    );
   };
 
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
-        <FileViewer files={files} updateEditor={updateEditor} />
-        <Editor files={files} />
+        <FileViewer files={files} updateFiles={updateFiles} />
+        <Editor activeFile={activeFile} />
         <Options />
       </div>
     </ThemeProvider>
