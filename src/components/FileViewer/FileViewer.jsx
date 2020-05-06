@@ -26,10 +26,7 @@ const FileViewer = (props) => {
   };
 
   const handleClick = () => {
-    getFiles(
-      "opendirectory",
-      "/home/will/projects/go/src/commentor-backend/.testDirectories"
-    )
+    getFiles("opendirectory", "/home/will/projects/go/src/commentor-backend/")
       .then((res) => {
         // console.log(res);
         console.log(sort(res));

@@ -30,17 +30,13 @@ const App = () => {
   const [activeFile, setActiveFile] = useState({});
 
   const updateFiles = (newFiles) => {
-    console.log(
-      newFiles[
-        "/home/will/projects/go/src/commentor-backend/.testDirectories/yeet.go"
-      ]
-    );
     setFiles(newFiles);
-    setActiveFile(
-      newFiles[
-        "/home/will/projects/go/src/commentor-backend/.testDirectories/yeet.go"
-      ]
-    );
+
+    const firstFile = Object.values(newFiles)[0];
+
+    if (firstFile) {
+      setActiveFile(firstFile);
+    }
   };
 
   return (

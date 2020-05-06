@@ -2,7 +2,6 @@ import React from "react";
 import { makeStyles, List } from "@material-ui/core";
 import { colors } from "../../services";
 import { CodeBlock } from "./";
-import ScrollArea from "react-scrollbar";
 
 const useStyles = makeStyles({
   root: {
@@ -50,6 +49,12 @@ const useStyles = makeStyles({
   },
 });
 
+const regex = {
+  newLine: "/\n/g",
+  cR: "/\r/g",
+  comment: "//{2}/g",
+};
+
 const Editor = (props) => {
   const { activeFile } = props;
 
@@ -60,22 +65,27 @@ const Editor = (props) => {
   const classes = useStyles();
 
   const generateFunctions = functionList.map((funcID, idx) => {
+    const comment = activeFile[funcID].Comment.replace(/\/{2} /g, "");
+    // .replace(/\r/g, "")
+    // .replace(/\n/g, " ");
+
     return (
       <CodeBlock
         key={`block-${funcID}`}
         componentKey={funcID}
         contents={activeFile[funcID].Contents}
+        comment={comment}
         language={"go"}
       ></CodeBlock>
     );
   });
 
   return (
-    <ScrollArea className={classes.root} horizontal={false} speed={0.8}>
+    <div className={classes.root}>
       <List component="nav" className={classes.list}>
         {generateFunctions}
       </List>
-    </ScrollArea>
+    </div>
   );
 };
 

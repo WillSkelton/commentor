@@ -38,7 +38,7 @@ const useStyles = makeStyles({
 });
 
 const CodeBlock = (props) => {
-  const { componentKey, contents, language } = props;
+  const { componentKey, contents, language, comment } = props;
 
   const classes = useStyles();
 
@@ -70,6 +70,7 @@ const CodeBlock = (props) => {
             className: classes.textFieldLittleInput,
           }}
           InputProps={{ className: classes.textFieldBigInput }}
+          defaultValue={`${comment ? comment : ""}`}
         ></TextField>
       </Collapse>
       <ListItem
