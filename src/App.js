@@ -9,7 +9,7 @@ import { MenuOpen, Menu } from "@material-ui/icons";
 import { colors, pallet } from "./services";
 
 import { Editor } from "./components/Editor";
-import FileViewer from "./components/FileViewer";
+import { FileViewer } from "./components/FileViewer";
 import Options from "./components/Options";
 
 const useStyles = makeStyles({
@@ -26,7 +26,10 @@ const useStyles = makeStyles({
     flexDirection: "row",
   },
   MenuButtonContainer: {
-    border: `2px solid ${colors.slate}`,
+    borderTop: `2px solid ${colors.slate}`,
+    borderBottom: `2px solid ${colors.slate}`,
+    borderRight: `1px solid ${colors.slate}`,
+    borderLeft: `2px solid ${colors.slate}`,
 
     width: "36px",
 
@@ -34,6 +37,11 @@ const useStyles = makeStyles({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
+  },
+  MenuButton: {
+    "&:hover": {
+      color: `${colors.green}`,
+    },
   },
 });
 
@@ -80,13 +88,16 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <div className={classes.MenuButtonContainer}>
-          <IconButton color="primary" onClick={toggleShow}>
+          <IconButton
+            className={classes.MenuButton}
+            color="primary"
+            onClick={toggleShow}
+          >
             {showFiles ? <MenuOpen></MenuOpen> : <Menu></Menu>}
           </IconButton>
         </div>
         {showFiles && (
           <FileViewer
-            toggleShow={toggleShow}
             files={files}
             changeActiveFile={changeActiveFile}
             updateFiles={updateFiles}

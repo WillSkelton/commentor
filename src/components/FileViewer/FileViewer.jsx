@@ -10,7 +10,11 @@ import { getFiles, colors } from "../../services";
 
 const useStyles = makeStyles({
   root: {
-    // border: `4px solid ${colors.green}`,
+    borderTop: `2px solid ${colors.slate}`,
+    borderBottom: `2px solid ${colors.slate}`,
+    borderRight: `1px solid ${colors.slate}`,
+    borderLeft: `1px solid ${colors.slate}`,
+    boxSizing: "border-box",
     height: "100%",
     width: "25%",
     padding: "12px",
@@ -18,17 +22,37 @@ const useStyles = makeStyles({
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "flex-start",
+    padding: "0px",
+
+    "&:hover": {
+      borderTop: `2px solid ${colors.green}`,
+      borderBottom: `2px solid ${colors.green}`,
+      borderRight: `1px solid ${colors.green}`,
+      borderLeft: `1px solid ${colors.green}`,
+    },
+  },
+  List: {
+    width: "100%",
   },
   ListItem: {
     // border: `1px solid ${colors.green}`,
+    boxSizing: "border-box",
+    width: "100%",
     margin: "0px 0px",
 
     "&:hover": {
-      border: `1px solid ${colors.green}`,
+      borderTop: `2px solid ${colors.green}`,
+      borderBottom: `2px solid ${colors.green}`,
+
+      boxSizing: "border-box",
     },
   },
   Typography: {
     color: colors.white,
+  },
+
+  Button: {
+    margin: "8px",
   },
 });
 
@@ -40,7 +64,7 @@ const lastNChars = (path, n) => {
 };
 
 const FileViewer = (props) => {
-  const { updateFiles, files, changeActiveFile, toggleShow } = props;
+  const { updateFiles, files, changeActiveFile } = props;
   const classes = useStyles();
 
   const [activeFileIndex, setActiveFileIndex] = useState(0);
@@ -66,8 +90,11 @@ const FileViewer = (props) => {
         }}
         key={idx}
         style={{
-          border: `${
-            activeFileIndex === idx ? `2px solid ${colors.purple}` : ""
+          borderTop: `${
+            activeFileIndex === idx ? `2px solid ${colors.green}` : ""
+          }`,
+          borderBottom: `${
+            activeFileIndex === idx ? `2px solid ${colors.green}` : ""
           }`,
         }}
       >
@@ -75,7 +102,7 @@ const FileViewer = (props) => {
           className={classes.Typography}
           variant="body2"
           style={{
-            color: `${activeFileIndex === idx ? colors.purple : colors.white}`,
+            color: `${activeFileIndex === idx ? colors.green : colors.white}`,
           }}
         >
           {displayValue}
@@ -86,11 +113,16 @@ const FileViewer = (props) => {
 
   return (
     <div className={classes.root}>
-      <Button variant="contained" color="primary" onClick={handleClick}>
+      <Button
+        className={classes.Button}
+        variant="contained"
+        color="primary"
+        onClick={handleClick}
+      >
         Choose Folder
       </Button>
 
-      <List>{generateList}</List>
+      <List className={classes.List}>{generateList}</List>
     </div>
   );
 };
