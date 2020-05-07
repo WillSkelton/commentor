@@ -1,6 +1,12 @@
 import React from "react";
-import { makeStyles, Button, List, ListItem } from "@material-ui/core";
-import { getFiles } from "../../services";
+import {
+  makeStyles,
+  Button,
+  List,
+  ListItem,
+  Typography,
+} from "@material-ui/core";
+import { getFiles, colors } from "../../services";
 
 const useStyles = makeStyles({
   root: {
@@ -8,11 +14,26 @@ const useStyles = makeStyles({
     height: "100%",
     width: "25%",
     padding: "12px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+  },
+  ListItem: {},
+  Typography: {
+    color: colors.white,
   },
 });
 
+const lastNChars = (path, n) => {
+  if (path.length <= n) {
+    return path;
+  }
+  return `...${path.slice(path.length - n)}`;
+};
+
 const FileViewer = (props) => {
-  const { updateFiles, changeActiveFile, toggleShow } = props;
+  const { updateFiles, files, changeActiveFile, toggleShow } = props;
   const classes = useStyles();
 
   const handleClick = () => {
@@ -25,11 +46,37 @@ const FileViewer = (props) => {
       });
   };
 
+  const generateList = Object.keys(files).map((filePath, idx) => {
+    const displayValue = lastNChars(filePath, 20);
+    return (
+      <ListItem
+        className={classes.ListItem}
+        name={filePath}
+        value={filePath}
+        onClick={() => {
+          changeActiveFile(filePath);
+        }}
+        key={idx}
+      >
+        <Typography
+          name={filePath}
+          value={filePath}
+          className={classes.Typography}
+          variant="body2"
+        >
+          {displayValue}
+        </Typography>
+      </ListItem>
+    );
+  });
+
   return (
     <div className={classes.root}>
       <Button variant="contained" color="primary" onClick={handleClick}>
-        Yeet
+        Choose Folder
       </Button>
+
+      <List>{generateList}</List>
     </div>
   );
 };
