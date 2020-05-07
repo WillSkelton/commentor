@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { makeStyles, createMuiTheme, ThemeProvider } from "@material-ui/core";
+import {
+  makeStyles,
+  createMuiTheme,
+  ThemeProvider,
+  IconButton,
+} from "@material-ui/core";
+import { MenuOpen, Menu } from "@material-ui/icons";
 import { colors, pallet } from "./services";
 
 import { Editor } from "./components/Editor";
@@ -8,7 +14,7 @@ import Options from "./components/Options";
 
 const useStyles = makeStyles({
   root: {
-    backgroundColor: colors.backgroundGray,
+    backgroundColor: colors.black,
     height: "100%",
     width: "100%",
     position: "absolute",
@@ -19,7 +25,28 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "row",
   },
+  MenuButtonContainer: {
+    border: `2px solid ${colors.slate}`,
+
+    width: "36px",
+
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
 });
+
+const sort = (files) => {
+  let sortedFiles = {};
+  Object.keys(files).map((FileID, idx) => {
+    if (!sortedFiles[files[FileID].Path]) {
+      sortedFiles[files[FileID].Path] = [];
+    }
+    sortedFiles[files[FileID].Path] = files[FileID].Functions;
+  });
+  return sortedFiles;
+};
 
 const theme = createMuiTheme(pallet);
 
@@ -28,11 +55,21 @@ const App = () => {
 
   const [files, setFiles] = useState({});
   const [activeFile, setActiveFile] = useState({});
+  const [showFiles, setShowFiles] = useState(true);
+
+  const toggleShow = () => {
+    setShowFiles(!showFiles);
+  };
+
+  const changeActiveFile = (newActiveFile) => {
+    setActiveFile(newActiveFile);
+  };
 
   const updateFiles = (newFiles) => {
-    setFiles(newFiles);
+    const sortedFiles = sort(newFiles);
+    setFiles(sortedFiles);
 
-    const firstFile = Object.values(newFiles)[0];
+    const firstFile = Object.values(sortedFiles)[0];
 
     if (firstFile) {
       setActiveFile(firstFile);
@@ -42,9 +79,20 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
-        <FileViewer files={files} updateFiles={updateFiles} />
+        <div className={classes.MenuButtonContainer}>
+          <IconButton color="primary" onClick={toggleShow}>
+            {showFiles ? <MenuOpen></MenuOpen> : <Menu></Menu>}
+          </IconButton>
+        </div>
+        {showFiles && (
+          <FileViewer
+            toggleShow={toggleShow}
+            files={files}
+            changeActiveFile={changeActiveFile}
+            updateFiles={updateFiles}
+          />
+        )}
         <Editor activeFile={activeFile} />
-        <Options />
       </div>
     </ThemeProvider>
   );

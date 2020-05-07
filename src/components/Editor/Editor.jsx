@@ -5,9 +5,9 @@ import { CodeBlock } from "./";
 
 const useStyles = makeStyles({
   root: {
-    border: `4px solid ${colors.slate}`,
+    border: `2px solid ${colors.slate}`,
     height: "100%",
-    width: "60%",
+    width: "100%",
     boxSizing: "border-box",
     overflow: "auto",
     backgroundColor: colors.black,
@@ -49,16 +49,8 @@ const useStyles = makeStyles({
   },
 });
 
-const regex = {
-  newLine: "/\n/g",
-  cR: "/\r/g",
-  comment: "//{2}/g",
-};
-
 const Editor = (props) => {
   const { activeFile } = props;
-
-  console.log(activeFile);
 
   const functionList = Object.keys(activeFile);
 
@@ -66,8 +58,6 @@ const Editor = (props) => {
 
   const generateFunctions = functionList.map((funcID, idx) => {
     const comment = activeFile[funcID].Comment.replace(/\/{2} /g, "");
-    // .replace(/\r/g, "")
-    // .replace(/\n/g, " ");
 
     return (
       <CodeBlock
