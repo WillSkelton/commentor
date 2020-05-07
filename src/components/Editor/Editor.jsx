@@ -5,7 +5,10 @@ import { CodeBlock } from "./";
 
 const useStyles = makeStyles({
   root: {
-    border: `2px solid ${colors.slate}`,
+    borderTop: `2px solid ${colors.slate}`,
+    borderBottom: `2px solid ${colors.slate}`,
+    borderRight: `2px solid ${colors.slate}`,
+    borderLeft: `1px solid ${colors.slate}`,
     height: "100%",
     width: "100%",
     boxSizing: "border-box",
