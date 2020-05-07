@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   makeStyles,
   Button,
@@ -19,7 +19,14 @@ const useStyles = makeStyles({
     justifyContent: "flex-start",
     alignItems: "flex-start",
   },
-  ListItem: {},
+  ListItem: {
+    // border: `1px solid ${colors.green}`,
+    margin: "0px 0px",
+
+    "&:hover": {
+      border: `1px solid ${colors.green}`,
+    },
+  },
   Typography: {
     color: colors.white,
   },
@@ -36,6 +43,8 @@ const FileViewer = (props) => {
   const { updateFiles, files, changeActiveFile, toggleShow } = props;
   const classes = useStyles();
 
+  const [activeFileIndex, setActiveFileIndex] = useState(0);
+
   const handleClick = () => {
     getFiles("opendirectory", "/home/will/projects/go/src/commentor-backend/")
       .then((res) => {
@@ -47,22 +56,27 @@ const FileViewer = (props) => {
   };
 
   const generateList = Object.keys(files).map((filePath, idx) => {
-    const displayValue = lastNChars(filePath, 20);
+    const displayValue = lastNChars(filePath, 30);
     return (
       <ListItem
         className={classes.ListItem}
-        name={filePath}
-        value={filePath}
         onClick={() => {
           changeActiveFile(filePath);
+          setActiveFileIndex(idx);
         }}
         key={idx}
+        style={{
+          border: `${
+            activeFileIndex === idx ? `2px solid ${colors.purple}` : ""
+          }`,
+        }}
       >
         <Typography
-          name={filePath}
-          value={filePath}
           className={classes.Typography}
           variant="body2"
+          style={{
+            color: `${activeFileIndex === idx ? colors.purple : colors.white}`,
+          }}
         >
           {displayValue}
         </Typography>

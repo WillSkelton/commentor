@@ -62,12 +62,7 @@ const App = () => {
   };
 
   const changeActiveFile = (path) => {
-    const newActiveFile = files[path];
-    console.log(newActiveFile);
-    // console.log(event.target);
-    // console.log(event.target.name);
-    // console.log(event.target.value);
-    setActiveFile(newActiveFile);
+    setActiveFile(files[path]);
   };
 
   const updateFiles = (newFiles) => {

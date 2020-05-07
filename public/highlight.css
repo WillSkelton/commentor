@@ -20,24 +20,29 @@
 .hljs-number,
 .hljs-params,
 .hljs-type {
-  color: #e78c45;
+  color: #fc7813;
+  /* color: #e78c45; */
 }
 .hljs-attribute {
-  color: #e7c547;
+  color: #ddb217;
+  /* color: #e7c547; */
 }
 .hljs-addition,
 .hljs-bullet,
 .hljs-string,
 .hljs-symbol {
-  color: #b9ca4a;
+  color: #2feb51;
+  /* color: #b9ca4a; */
 }
 .hljs-section,
 .hljs-title {
-  color: #7aa6da;
+  color: #2f77eb;
+  /* color: #7aa6da; */
 }
 .hljs-keyword,
 .hljs-selector-tag {
-  color: #c397d8;
+  color: #c92feb;
+  /* color: #c397d8; */
 }
 .hljs {
   display: block;
