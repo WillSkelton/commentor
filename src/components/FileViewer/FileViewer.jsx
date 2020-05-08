@@ -4,9 +4,12 @@ import {
   Button,
   List,
   ListItem,
+  TextField,
   Typography,
 } from "@material-ui/core";
 import { getFiles, colors } from "../../services";
+
+import Save from "./Save.jsx";
 
 const useStyles = makeStyles({
   root: {
@@ -16,12 +19,11 @@ const useStyles = makeStyles({
     borderLeft: `1px solid ${colors.slate}`,
     boxSizing: "border-box",
     height: "100%",
-    width: "25%",
-    padding: "12px",
+    width: "40%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
-    alignItems: "flex-start",
+    alignItems: "center",
     padding: "0px",
 
     "&:hover": {
@@ -30,6 +32,39 @@ const useStyles = makeStyles({
       borderRight: `1px solid ${colors.green}`,
       borderLeft: `1px solid ${colors.green}`,
     },
+  },
+  textField: {
+    width: "100%",
+  },
+  textFieldBigInput: {
+    width: "100%",
+    padding: "0px",
+
+    color: colors.white,
+  },
+  textFieldLittleInput: {
+    backgroundColor: colors.black,
+    color: colors.white,
+    padding: "0px 4px",
+    width: "100%",
+    border: `2px solid ${colors.slate}`,
+    borderRadius: "4px",
+    minHeight: "40px",
+  },
+  helperText: {
+    marginLeft: "14px",
+    marginRight: "14px",
+    color: colors.white,
+    fontSize: "0.75rem",
+    marginTop: "3px",
+    textAlign: "left",
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+    fontWeight: "400",
+    lineHeight: "1.66",
+    letterSpacing: "0.03333em",
+  },
+  listDiv: {
+    width: "100%",
   },
   List: {
     width: "100%",
@@ -50,9 +85,24 @@ const useStyles = makeStyles({
   Typography: {
     color: colors.white,
   },
+  tfAndButtons: {
+    marginTop: "8px",
+    width: "95%",
+  },
+  ButtonCol: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: "100%",
+  },
+  Buttons: {
+    width: "100%",
+    backgroundColor: colors.blue,
 
-  Button: {
-    margin: "8px",
+    "&:hover": {
+      backgroundColor: colors.green,
+    },
   },
 });
 
@@ -68,27 +118,38 @@ const FileViewer = (props) => {
   const classes = useStyles();
 
   const [activeFileIndex, setActiveFileIndex] = useState(0);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [inputDirectory, setInputDirectory] = useState("");
 
   const handleClick = () => {
-    getFiles(
-      "opendirectory",
-      "/home/will/projects/go/src/commentor-backend/.testDirectories"
-    )
+    getFiles("opendirectory", inputDirectory)
       .then((res) => {
+        setError(false);
+        setErrorMessage("");
         updateFiles(res);
       })
       .catch((err) => {
+        setError(true);
         console.log(err);
+
+        if (err.data) {
+          setErrorMessage(err.data);
+        } else {
+          setErrorMessage(err);
+        }
       });
   };
 
-  const generateList = Object.keys(files).map((filePath, idx) => {
+  const generateList = Object.keys(files).map((fileID, idx) => {
+    const filePath = files[fileID].Path;
+
     const displayValue = lastNChars(filePath, 30);
     return (
       <ListItem
         className={classes.ListItem}
         onClick={() => {
-          changeActiveFile(filePath);
+          changeActiveFile(files[fileID]);
           setActiveFileIndex(idx);
         }}
         key={idx}
@@ -116,16 +177,52 @@ const FileViewer = (props) => {
 
   return (
     <div className={classes.root}>
-      <Button
-        className={classes.Button}
-        variant="contained"
-        color="primary"
-        onClick={handleClick}
-      >
-        Choose Folder
-      </Button>
-
-      <List className={classes.List}>{generateList}</List>
+      <div className={classes.tfAndButtons}>
+        <TextField
+          placeholder="Type full directory here..."
+          className={classes.textField}
+          color="secondary"
+          variant="outlined"
+          inputProps={{
+            className: classes.textFieldLittleInput,
+            style: {
+              backgroundColor: `${error ? colors.red : colors.black}`,
+            },
+          }}
+          InputProps={{
+            className: classes.textFieldBigInput,
+            style: {
+              backgroundColor: `${error ? colors.white : colors.black}`,
+            },
+          }}
+          value={inputDirectory.value}
+          onChange={(e) => {
+            setInputDirectory(e.target.value);
+          }}
+          helperText={
+            error && <p className={classes.helperText}>{errorMessage}</p>
+          }
+          // style={{
+          //   backgroundColor: `${error ? colors.white : colors.black}`,
+          // }}
+        ></TextField>
+        <div className={classes.ButtonCol}>
+          <Button
+            className={classes.Buttons}
+            variant="contained"
+            onClick={handleClick}
+            style={{
+              marginTop: `${error ? "0px" : "8px"}`,
+            }}
+          >
+            Enter Folder
+          </Button>
+          <Save>Save All</Save>
+        </div>
+      </div>
+      <div className={classes.listDiv}>
+        <List className={classes.List}>{generateList}</List>
+      </div>
     </div>
   );
 };

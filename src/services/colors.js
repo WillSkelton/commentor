@@ -13,7 +13,7 @@ export const colors = {
   purple: "#c92feb",
   green: "#2feb51",
   yellow: "#e8eb2f",
-  red: "#eb2f2f",
+  red: "#a30d0d",
   susie: "#eb2f8a",
 };
 
@@ -24,6 +24,10 @@ export const pallet = {
     },
     secondary: {
       main: colors.green,
+    },
+
+    error: {
+      main: colors.red,
     },
   },
 };

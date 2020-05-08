@@ -38,6 +38,7 @@ const useStyles = makeStyles({
     justifyContent: "flex-start",
   },
   MenuButton: {
+    color: colors.blue,
     "&:hover": {
       color: `${colors.green}`,
     },
@@ -68,15 +69,17 @@ const App = () => {
     setShowFiles(!showFiles);
   };
 
-  const changeActiveFile = (path) => {
-    setActiveFile(files[path]);
+  const changeActiveFile = (file) => {
+    setActiveFile(file);
   };
 
   const updateFiles = (newFiles) => {
-    const sortedFiles = sort(newFiles);
-    setFiles(sortedFiles);
+    // const sortedFiles = sort(newFiles);
+    // setFiles(sortedFiles);
+    setFiles(newFiles);
 
-    const firstFile = Object.values(sortedFiles)[0];
+    // const firstFile = Object.values(sortedFiles)[0];
+    const firstFile = Object.values(newFiles)[0];
 
     if (firstFile) {
       setActiveFile(firstFile);
@@ -89,7 +92,7 @@ const App = () => {
         <div className={classes.MenuButtonContainer}>
           <IconButton
             className={classes.MenuButton}
-            color="primary"
+            // color="primary"
             onClick={toggleShow}
           >
             {showFiles ? <MenuOpen></MenuOpen> : <Menu></Menu>}

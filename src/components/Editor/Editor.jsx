@@ -55,22 +55,23 @@ const useStyles = makeStyles({
 const Editor = (props) => {
   const { activeFile } = props;
 
-  const functionList = Object.keys(activeFile);
+  const functionList = activeFile.Functions
+    ? Object.keys(activeFile.Functions)
+    : [];
 
   const classes = useStyles();
 
-  const generateFunctions = functionList.map((funcID, idx) => {
-    const comment = activeFile[funcID].Comment.replace(/\/{2} /g, "");
-
-    console.log(activeFile[funcID]);
+  const generateFunctions = functionList.map((funcID) => {
+    const comment = activeFile.Functions[funcID].Comment.replace(/\/{2} /g, "");
 
     return (
       <CodeBlock
         key={`block-${funcID}`}
-        componentKey={funcID}
-        contents={activeFile[funcID].Contents}
+        fileID={activeFile.FileID}
+        funcID={funcID}
+        contents={activeFile.Functions[funcID].Contents}
         comment={comment}
-        language={"go"}
+        language={activeFile.Lang.Extension}
       ></CodeBlock>
     );
   });
