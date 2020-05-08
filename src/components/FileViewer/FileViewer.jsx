@@ -4,6 +4,7 @@ import {
   Button,
   List,
   ListItem,
+  TextField,
   Typography,
 } from "@material-ui/core";
 import { getFiles, colors } from "../../services";
@@ -17,7 +18,6 @@ const useStyles = makeStyles({
     boxSizing: "border-box",
     height: "100%",
     width: "25%",
-    padding: "12px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
@@ -30,6 +30,21 @@ const useStyles = makeStyles({
       borderRight: `1px solid ${colors.green}`,
       borderLeft: `1px solid ${colors.green}`,
     },
+  },
+  textField: {
+    width: "100%",
+  },
+  textFieldBigInput: {
+    width: "100%",
+    padding: "0px",
+  },
+  textFieldLittleInput: {
+    backgroundColor: colors.lightGrey,
+    padding: "0px",
+    width: "100%",
+    border: `2px solid ${colors.slate}`,
+    borderRadius: "4px",
+    minHeight: "40px",
   },
   List: {
     width: "100%",
@@ -68,9 +83,11 @@ const FileViewer = (props) => {
   const classes = useStyles();
 
   const [activeFileIndex, setActiveFileIndex] = useState(0);
+  const [inputDirectory, setInputDirectory] = useState('');
 
   const handleClick = () => {
-    getFiles("opendirectory", "C:\\Users\\videm\\Downloads\\testDirectories")
+    console.log(inputDirectory);
+    getFiles("opendirectory", inputDirectory)
       .then((res) => {
         updateFiles(res);
       })
@@ -113,6 +130,20 @@ const FileViewer = (props) => {
 
   return (
     <div className={classes.root}>
+      <TextField
+        placeholder="Type full directory here..."
+        className={classes.textField}
+        color="secondary"
+        variant="outlined"
+        inputProps={{
+          className: classes.textFieldLittleInput,
+        }}
+        InputProps={{ className: classes.textFieldBigInput }}
+        value={inputDirectory.value}
+        onChange={(e) => {
+          setInputDirectory(e.target.value);
+        }}
+      ></TextField>
       <Button
         className={classes.Button}
         variant="contained"
@@ -121,7 +152,6 @@ const FileViewer = (props) => {
       >
         Choose Folder
       </Button>
-
       <List className={classes.List}>{generateList}</List>
     </div>
   );
