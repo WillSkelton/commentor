@@ -68,8 +68,9 @@ const useStyles = makeStyles({
     color: colors.white,
   },
 
-  Button: {
+  ButtonRow: {
     margin: "8px",
+    width: "100%",
   },
 });
 
@@ -145,17 +146,18 @@ const FileViewer = (props) => {
           setInputDirectory(e.target.value);
         }}
       ></TextField>
-      <Button
-        className={classes.Button}
-        variant="contained"
-        color="primary"
-        onClick={handleClick}
-      >
-        Enter Folder
-      </Button>
-      <Save>
-        Save
-      </Save>
+      <div className={classes.ButtonRow}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleClick}
+        >
+          Enter Folder
+        </Button>
+        <Save>
+          Save
+        </Save>
+      </div>
       <List className={classes.List}>{generateList}</List>
     </div>
   );
