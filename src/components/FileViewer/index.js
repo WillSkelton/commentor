@@ -1,4 +1,4 @@
 import FileViewer from "./FileViewer.jsx";
-import FolderSelector from "./FolderSelector.jsx";
+import Save from "./Save.jsx";
 
-export { FileViewer, FolderSelector };
+export { FileViewer, Save };

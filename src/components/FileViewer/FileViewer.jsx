@@ -4,9 +4,12 @@ import {
   Button,
   List,
   ListItem,
+  TextField,
   Typography,
 } from "@material-ui/core";
 import { getFiles, colors } from "../../services";
+
+import Save from "./Save.jsx";
 
 const useStyles = makeStyles({
   root: {
@@ -17,7 +20,6 @@ const useStyles = makeStyles({
     boxSizing: "border-box",
     height: "100%",
     width: "25%",
-    padding: "12px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
@@ -30,6 +32,21 @@ const useStyles = makeStyles({
       borderRight: `1px solid ${colors.green}`,
       borderLeft: `1px solid ${colors.green}`,
     },
+  },
+  textField: {
+    width: "100%",
+  },
+  textFieldBigInput: {
+    width: "100%",
+    padding: "0px",
+  },
+  textFieldLittleInput: {
+    backgroundColor: colors.lightGrey,
+    padding: "0px",
+    width: "100%",
+    border: `2px solid ${colors.slate}`,
+    borderRadius: "4px",
+    minHeight: "40px",
   },
   List: {
     width: "100%",
@@ -51,8 +68,9 @@ const useStyles = makeStyles({
     color: colors.white,
   },
 
-  Button: {
+  ButtonRow: {
     margin: "8px",
+    width: "100%",
   },
 });
 
@@ -69,12 +87,10 @@ const FileViewer = (props) => {
 
   const [activeFileIndex, setActiveFileIndex] = useState(0);
   const [error, setError] = useState(false);
+  const [inputDirectory, setInputDirectory] = useState("");
 
   const handleClick = () => {
-    getFiles(
-      "opendirectory",
-      "/home/will/projects/go/src/commentor-backend/.testDirectories"
-    )
+    getFiles("opendirectory", inputDirectory)
       .then((res) => {
         setError(false);
         updateFiles(res);
@@ -121,18 +137,26 @@ const FileViewer = (props) => {
 
   return (
     <div className={classes.root}>
-      <Button
-        className={classes.Button}
-        variant="contained"
-        // color="primary"
-        onClick={handleClick}
-        style={{
-          backgroundColor: `${error ? colors.red : colors.blue}`,
+      <TextField
+        placeholder="Type full directory here..."
+        className={classes.textField}
+        color="secondary"
+        variant="outlined"
+        inputProps={{
+          className: classes.textFieldLittleInput,
         }}
-      >
-        Choose Folder
-      </Button>
-
+        InputProps={{ className: classes.textFieldBigInput }}
+        value={inputDirectory.value}
+        onChange={(e) => {
+          setInputDirectory(e.target.value);
+        }}
+      ></TextField>
+      <div className={classes.ButtonRow}>
+        <Button variant="contained" color="primary" onClick={handleClick}>
+          Enter Folder
+        </Button>
+        <Save>Save</Save>
+      </div>
       <List className={classes.List}>{generateList}</List>
     </div>
   );
