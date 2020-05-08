@@ -46,3 +46,21 @@ export const getFiles = (endpoint, directory) => {
     method: "GET",
   });
 };
+
+export const updateFunctionComment = (endpoint, comment, fileID, funcID) => {
+  const payload = {
+    comment: comment,
+    fileID: fileID,
+    funcID: parseInt(funcID),
+  };
+
+  console.log(payload);
+
+  return axios.post(`${baseUrl}/${endpoint}`, JSON.stringify(payload));
+
+  // return request({
+  //   url: `/${endpoint}`,
+  //   method: "PUT",
+  //   data: payload,
+  // });
+};

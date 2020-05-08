@@ -53,7 +53,7 @@ const useStyles = makeStyles({
 });
 
 const Editor = (props) => {
-  const { activeFile } = props;
+  const { activeFile, patchFiles } = props;
 
   const functionList = activeFile.Functions
     ? Object.keys(activeFile.Functions)
@@ -66,6 +66,7 @@ const Editor = (props) => {
 
     return (
       <CodeBlock
+        patchFiles={patchFiles}
         key={`block-${funcID}`}
         fileID={activeFile.FileID}
         funcID={funcID}

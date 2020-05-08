@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Button } from "@material-ui/core";
+import { makeStyles, Button, Tooltip } from "@material-ui/core";
 
 import { colors } from "../../services";
 
@@ -26,13 +26,15 @@ const Save = (props) => {
   };
 
   return (
-    <Button
-      className={classes.Buttons}
-      variant="contained"
-      onClick={handleClick}
-    >
-      {children}
-    </Button>
+    <Tooltip title="Save all comments in this file" placement="bottom">
+      <Button
+        className={classes.Buttons}
+        variant="contained"
+        onClick={handleClick}
+      >
+        {children}
+      </Button>
+    </Tooltip>
   );
 };
 

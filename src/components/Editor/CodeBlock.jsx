@@ -8,8 +8,9 @@ import {
   Tooltip,
 } from "@material-ui/core";
 import { Save, Restore } from "@material-ui/icons";
-import { colors } from "../../services";
 import Highlight from "react-highlight.js";
+
+import { colors, updateFunctionComment } from "../../services";
 
 const useStyles = makeStyles({
   root: {
@@ -81,7 +82,7 @@ const useStyles = makeStyles({
 });
 
 const CodeBlock = (props) => {
-  const { fileID, funcID, contents, language, comment } = props;
+  const { fileID, funcID, contents, language, comment, patchFiles } = props;
 
   const classes = useStyles();
 
@@ -91,13 +92,35 @@ const CodeBlock = (props) => {
 
   const handleKeyDown = (event) => {
     const { key, ctrlKey, shiftKey } = event;
-
     if (key === "Enter" && ctrlKey && shiftKey) {
-      console.log("Here's What I'm going to send:");
-      console.log(event.target.value);
-    } else {
-      setTFValue(event.target.value);
+      handleSave();
+    } else if (key === "Backspace" && ctrlKey && shiftKey) {
+      handleRevert();
     }
+  };
+
+  const handleChange = (event) => {
+    setTFValue(event.target.value);
+  };
+
+  const handleRevert = () => {
+    console.log("UNO REVERSE!");
+    setTFValue(comment);
+  };
+
+  const handleSave = () => {
+    console.log(`Here's what I'm going to send: \n${tfValue}`);
+
+    updateFunctionComment("updatefunc", tfValue, fileID, funcID)
+      .then((res) => {
+        console.log(".then");
+        if (res.data) {
+          patchFiles(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleCodeBlockClick = (idx) => {
@@ -110,11 +133,7 @@ const CodeBlock = (props) => {
 
   return (
     <div key={`div-${funcID}`} className={classes.root}>
-      <Collapse
-        key={`text-${funcID}`}
-        in={open === funcID}
-        // className={classes.collapse}
-      >
+      <Collapse key={`text-${funcID}`} in={open === funcID}>
         {" "}
         <div className={classes.tfAndButtons}>
           <TextField
@@ -128,19 +147,24 @@ const CodeBlock = (props) => {
               className: classes.textFieldLittleInput,
             }}
             InputProps={{ className: classes.textFieldBigInput }}
-            defaultValue={tfValue}
             onKeyDown={handleKeyDown}
-          >
-            {comment ? comment : tfValue}
-          </TextField>
+            onChange={handleChange}
+            value={tfValue}
+          ></TextField>
           <div className={classes.Buttons}>
-            <Tooltip title="Save Comment" placement="left">
-              <IconButton className={classes.Button}>
+            <Tooltip
+              title="Save Comment (ctrl + shift + enter)"
+              placement="left"
+            >
+              <IconButton className={classes.Button} onClick={handleSave}>
                 <Save />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Revert Changes" placement="left">
-              <IconButton className={classes.Button}>
+            <Tooltip
+              title="Revert Changes (ctrl + shift + backspace)"
+              placement="left"
+            >
+              <IconButton className={classes.Button} onClick={handleRevert}>
                 <Restore />
               </IconButton>
             </Tooltip>

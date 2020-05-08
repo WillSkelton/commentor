@@ -6,6 +6,7 @@ import {
   ListItem,
   TextField,
   Typography,
+  Tooltip,
 } from "@material-ui/core";
 import { getFiles, colors } from "../../services";
 
@@ -131,7 +132,6 @@ const FileViewer = (props) => {
       })
       .catch((err) => {
         setError(true);
-        console.log(err);
 
         if (err.data) {
           setErrorMessage(err.data);
@@ -141,10 +141,17 @@ const FileViewer = (props) => {
       });
   };
 
+  const handleKeydown = (event) => {
+    const { key } = event;
+    if (key === "Enter") {
+      handleClick();
+    }
+  };
+
   const generateList = Object.keys(files).map((fileID, idx) => {
     const filePath = files[fileID].Path;
 
-    const displayValue = lastNChars(filePath, 30);
+    const displayValue = lastNChars(filePath, 40);
     return (
       <ListItem
         className={classes.ListItem}
@@ -179,6 +186,7 @@ const FileViewer = (props) => {
     <div className={classes.root}>
       <div className={classes.tfAndButtons}>
         <TextField
+          autoFocus
           placeholder="Type full directory here..."
           className={classes.textField}
           color="secondary"
@@ -195,28 +203,28 @@ const FileViewer = (props) => {
               backgroundColor: `${error ? colors.white : colors.black}`,
             },
           }}
-          value={inputDirectory.value}
+          value={inputDirectory}
           onChange={(e) => {
             setInputDirectory(e.target.value);
           }}
           helperText={
             error && <p className={classes.helperText}>{errorMessage}</p>
           }
-          // style={{
-          //   backgroundColor: `${error ? colors.white : colors.black}`,
-          // }}
+          onKeyDown={handleKeydown}
         ></TextField>
         <div className={classes.ButtonCol}>
-          <Button
-            className={classes.Buttons}
-            variant="contained"
-            onClick={handleClick}
-            style={{
-              marginTop: `${error ? "0px" : "8px"}`,
-            }}
-          >
-            Enter Folder
-          </Button>
+          <Tooltip title="Open Director from box (enter)" placement="right">
+            <Button
+              className={classes.Buttons}
+              variant="contained"
+              onClick={handleClick}
+              style={{
+                marginTop: `${error ? "0px" : "8px"}`,
+              }}
+            >
+              Enter Folder
+            </Button>
+          </Tooltip>
           <Save>Save All</Save>
         </div>
       </div>
