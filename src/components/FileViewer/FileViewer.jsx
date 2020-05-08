@@ -86,7 +86,6 @@ const FileViewer = (props) => {
   const [inputDirectory, setInputDirectory] = useState('');
 
   const handleClick = () => {
-    console.log(inputDirectory);
     getFiles("opendirectory", inputDirectory)
       .then((res) => {
         updateFiles(res);
