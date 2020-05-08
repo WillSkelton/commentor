@@ -9,6 +9,8 @@ import {
 } from "@material-ui/core";
 import { getFiles, colors } from "../../services";
 
+import Save from "./Save.jsx";
+
 const useStyles = makeStyles({
   root: {
     borderTop: `2px solid ${colors.slate}`,
@@ -83,7 +85,7 @@ const FileViewer = (props) => {
   const classes = useStyles();
 
   const [activeFileIndex, setActiveFileIndex] = useState(0);
-  const [inputDirectory, setInputDirectory] = useState('');
+  const [inputDirectory, setInputDirectory] = useState("");
 
   const handleClick = () => {
     getFiles("opendirectory", inputDirectory)
@@ -149,8 +151,11 @@ const FileViewer = (props) => {
         color="primary"
         onClick={handleClick}
       >
-        Choose Folder
+        Enter Folder
       </Button>
+      <Save>
+        Save
+      </Save>
       <List className={classes.List}>{generateList}</List>
     </div>
   );

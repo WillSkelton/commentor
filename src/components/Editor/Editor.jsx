@@ -62,6 +62,8 @@ const Editor = (props) => {
   const generateFunctions = functionList.map((funcID, idx) => {
     const comment = activeFile[funcID].Comment.replace(/\/{2} /g, "");
 
+    console.log(activeFile[funcID]);
+
     return (
       <CodeBlock
         key={`block-${funcID}`}
