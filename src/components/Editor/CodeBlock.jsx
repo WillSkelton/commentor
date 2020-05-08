@@ -4,26 +4,43 @@ import {
   TextField,
   ListItem,
   Collapse,
-  Button,
+  IconButton,
+  Tooltip,
 } from "@material-ui/core";
+import { Save, Restore } from "@material-ui/icons";
 import { colors } from "../../services";
 import Highlight from "react-highlight.js";
 
 const useStyles = makeStyles({
+  root: {
+    "&:hover": {
+      border: `2px solid ${colors.green}`,
+    },
+  },
   textField: {
     width: "100%",
+    borderColor: colors.red,
   },
   textFieldBigInput: {
     width: "100%",
     padding: "0px",
+    borderColor: colors.red,
   },
   textFieldLittleInput: {
-    backgroundColor: colors.lightGrey,
-    padding: "0px",
+    backgroundColor: colors.black,
+    color: colors.white,
+    padding: "0px 4px",
+    boxSizing: "border-box",
     width: "100%",
-    border: `2px solid ${colors.slate}`,
+    border: `2px solid ${colors.blue}`,
     borderRadius: "4px",
-    minHeight: "40px",
+
+    "&:hover": {
+      border: `2px solid ${colors.green}`,
+    },
+
+    minHeight: "96px",
+    height: "100%",
   },
   listItem: {
     margin: "0px",
@@ -40,6 +57,26 @@ const useStyles = makeStyles({
   },
   collapse: {
     width: "100%",
+    height: "100%",
+  },
+  tfAndButtons: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  Buttons: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  Button: {
+    color: colors.blue,
+
+    "&:hover": {
+      color: colors.green,
+    },
   },
 });
 
@@ -72,28 +109,43 @@ const CodeBlock = (props) => {
   };
 
   return (
-    <div key={`div-${funcID}`}>
+    <div key={`div-${funcID}`} className={classes.root}>
       <Collapse
         key={`text-${funcID}`}
         in={open === funcID}
         // className={classes.collapse}
       >
-        <TextField
-          placeholder="Add Comment Here"
-          multiline
-          rowsMax={3}
-          className={classes.textField}
-          color="secondary"
-          variant="outlined"
-          inputProps={{
-            className: classes.textFieldLittleInput,
-          }}
-          InputProps={{ className: classes.textFieldBigInput }}
-          defaultValue={tfValue}
-          onKeyDown={handleKeyDown}
-        >
-          {comment ? comment : tfValue}
-        </TextField>
+        {" "}
+        <div className={classes.tfAndButtons}>
+          <TextField
+            placeholder="Add Comment Here"
+            multiline
+            rowsMax={3}
+            className={classes.textField}
+            color="secondary"
+            variant="outlined"
+            inputProps={{
+              className: classes.textFieldLittleInput,
+            }}
+            InputProps={{ className: classes.textFieldBigInput }}
+            defaultValue={tfValue}
+            onKeyDown={handleKeyDown}
+          >
+            {comment ? comment : tfValue}
+          </TextField>
+          <div className={classes.Buttons}>
+            <Tooltip title="Save Comment" placement="left">
+              <IconButton className={classes.Button}>
+                <Save />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Revert Changes" placement="left">
+              <IconButton className={classes.Button}>
+                <Restore />
+              </IconButton>
+            </Tooltip>
+          </div>
+        </div>
       </Collapse>
       <ListItem
         onClick={() => {
