@@ -1,3 +1,4 @@
 import Editor from "./Editor.jsx";
+import CodeBlock from "./CodeBlock.jsx";
 
-export default Editor;
+export { Editor, CodeBlock };
