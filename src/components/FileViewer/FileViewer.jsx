@@ -19,11 +19,11 @@ const useStyles = makeStyles({
     borderLeft: `1px solid ${colors.slate}`,
     boxSizing: "border-box",
     height: "100%",
-    width: "25%",
+    width: "40%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
-    alignItems: "flex-start",
+    alignItems: "center",
     padding: "0px",
 
     "&:hover": {
@@ -39,14 +39,32 @@ const useStyles = makeStyles({
   textFieldBigInput: {
     width: "100%",
     padding: "0px",
+
+    color: colors.white,
   },
   textFieldLittleInput: {
-    backgroundColor: colors.lightGrey,
-    padding: "0px",
+    backgroundColor: colors.black,
+    color: colors.white,
+    padding: "0px 4px",
     width: "100%",
     border: `2px solid ${colors.slate}`,
     borderRadius: "4px",
     minHeight: "40px",
+  },
+  helperText: {
+    marginLeft: "14px",
+    marginRight: "14px",
+    color: colors.white,
+    fontSize: "0.75rem",
+    marginTop: "3px",
+    textAlign: "left",
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+    fontWeight: "400",
+    lineHeight: "1.66",
+    letterSpacing: "0.03333em",
+  },
+  listDiv: {
+    width: "100%",
   },
   List: {
     width: "100%",
@@ -67,10 +85,24 @@ const useStyles = makeStyles({
   Typography: {
     color: colors.white,
   },
-
-  ButtonRow: {
-    margin: "8px",
+  tfAndButtons: {
+    marginTop: "8px",
+    width: "95%",
+  },
+  ButtonCol: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
     width: "100%",
+  },
+  Buttons: {
+    width: "100%",
+    backgroundColor: colors.blue,
+
+    "&:hover": {
+      backgroundColor: colors.green,
+    },
   },
 });
 
@@ -87,17 +119,25 @@ const FileViewer = (props) => {
 
   const [activeFileIndex, setActiveFileIndex] = useState(0);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [inputDirectory, setInputDirectory] = useState("");
 
   const handleClick = () => {
     getFiles("opendirectory", inputDirectory)
       .then((res) => {
         setError(false);
+        setErrorMessage("");
         updateFiles(res);
       })
       .catch((err) => {
         setError(true);
         console.log(err);
+
+        if (err.data) {
+          setErrorMessage(err.data);
+        } else {
+          setErrorMessage(err);
+        }
       });
   };
 
@@ -137,27 +177,52 @@ const FileViewer = (props) => {
 
   return (
     <div className={classes.root}>
-      <TextField
-        placeholder="Type full directory here..."
-        className={classes.textField}
-        color="secondary"
-        variant="outlined"
-        inputProps={{
-          className: classes.textFieldLittleInput,
-        }}
-        InputProps={{ className: classes.textFieldBigInput }}
-        value={inputDirectory.value}
-        onChange={(e) => {
-          setInputDirectory(e.target.value);
-        }}
-      ></TextField>
-      <div className={classes.ButtonRow}>
-        <Button variant="contained" color="primary" onClick={handleClick}>
-          Enter Folder
-        </Button>
-        <Save>Save</Save>
+      <div className={classes.tfAndButtons}>
+        <TextField
+          placeholder="Type full directory here..."
+          className={classes.textField}
+          color="secondary"
+          variant="outlined"
+          inputProps={{
+            className: classes.textFieldLittleInput,
+            style: {
+              backgroundColor: `${error ? colors.red : colors.black}`,
+            },
+          }}
+          InputProps={{
+            className: classes.textFieldBigInput,
+            style: {
+              backgroundColor: `${error ? colors.white : colors.black}`,
+            },
+          }}
+          value={inputDirectory.value}
+          onChange={(e) => {
+            setInputDirectory(e.target.value);
+          }}
+          helperText={
+            error && <p className={classes.helperText}>{errorMessage}</p>
+          }
+          // style={{
+          //   backgroundColor: `${error ? colors.white : colors.black}`,
+          // }}
+        ></TextField>
+        <div className={classes.ButtonCol}>
+          <Button
+            className={classes.Buttons}
+            variant="contained"
+            onClick={handleClick}
+            style={{
+              marginTop: `${error ? "0px" : "8px"}`,
+            }}
+          >
+            Enter Folder
+          </Button>
+          <Save>Save All</Save>
+        </div>
       </div>
-      <List className={classes.List}>{generateList}</List>
+      <div className={classes.listDiv}>
+        <List className={classes.List}>{generateList}</List>
+      </div>
     </div>
   );
 };

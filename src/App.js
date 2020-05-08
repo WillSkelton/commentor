@@ -38,6 +38,7 @@ const useStyles = makeStyles({
     justifyContent: "flex-start",
   },
   MenuButton: {
+    color: colors.blue,
     "&:hover": {
       color: `${colors.green}`,
     },
@@ -91,7 +92,7 @@ const App = () => {
         <div className={classes.MenuButtonContainer}>
           <IconButton
             className={classes.MenuButton}
-            color="primary"
+            // color="primary"
             onClick={toggleShow}
           >
             {showFiles ? <MenuOpen></MenuOpen> : <Menu></Menu>}
