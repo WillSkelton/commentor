@@ -68,6 +68,7 @@ const FileViewer = (props) => {
   const classes = useStyles();
 
   const [activeFileIndex, setActiveFileIndex] = useState(0);
+  const [error, setError] = useState(false);
 
   const handleClick = () => {
     getFiles(
@@ -75,20 +76,24 @@ const FileViewer = (props) => {
       "/home/will/projects/go/src/commentor-backend/.testDirectories"
     )
       .then((res) => {
+        setError(false);
         updateFiles(res);
       })
       .catch((err) => {
+        setError(true);
         console.log(err);
       });
   };
 
-  const generateList = Object.keys(files).map((filePath, idx) => {
+  const generateList = Object.keys(files).map((fileID, idx) => {
+    const filePath = files[fileID].Path;
+
     const displayValue = lastNChars(filePath, 30);
     return (
       <ListItem
         className={classes.ListItem}
         onClick={() => {
-          changeActiveFile(filePath);
+          changeActiveFile(files[fileID]);
           setActiveFileIndex(idx);
         }}
         key={idx}
@@ -119,8 +124,11 @@ const FileViewer = (props) => {
       <Button
         className={classes.Button}
         variant="contained"
-        color="primary"
+        // color="primary"
         onClick={handleClick}
+        style={{
+          backgroundColor: `${error ? colors.red : colors.blue}`,
+        }}
       >
         Choose Folder
       </Button>

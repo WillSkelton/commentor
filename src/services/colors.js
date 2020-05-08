@@ -25,5 +25,9 @@ export const pallet = {
     secondary: {
       main: colors.green,
     },
+
+    error: {
+      main: colors.red,
+    },
   },
 };

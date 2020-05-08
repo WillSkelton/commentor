@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { makeStyles, TextField, ListItem, Collapse } from "@material-ui/core";
+import {
+  makeStyles,
+  TextField,
+  ListItem,
+  Collapse,
+  Button,
+} from "@material-ui/core";
 import { colors } from "../../services";
 import Highlight from "react-highlight.js";
 
@@ -38,13 +44,26 @@ const useStyles = makeStyles({
 });
 
 const CodeBlock = (props) => {
-  const { componentKey, contents, language, comment } = props;
+  const { fileID, funcID, contents, language, comment } = props;
 
   const classes = useStyles();
 
   const [open, setOpen] = useState(-1);
 
-  const handleClick = (idx) => {
+  const [tfValue, setTFValue] = useState(comment);
+
+  const handleKeyDown = (event) => {
+    const { key, ctrlKey, shiftKey } = event;
+
+    if (key === "Enter" && ctrlKey && shiftKey) {
+      console.log("Here's What I'm going to send:");
+      console.log(event.target.value);
+    } else {
+      setTFValue(event.target.value);
+    }
+  };
+
+  const handleCodeBlockClick = (idx) => {
     if (open === idx) {
       setOpen(-1);
     } else {
@@ -53,10 +72,10 @@ const CodeBlock = (props) => {
   };
 
   return (
-    <div key={`div-${componentKey}`}>
+    <div key={`div-${funcID}`}>
       <Collapse
-        key={`text-${componentKey}`}
-        in={open === componentKey}
+        key={`text-${funcID}`}
+        in={open === funcID}
         // className={classes.collapse}
       >
         <TextField
@@ -70,19 +89,22 @@ const CodeBlock = (props) => {
             className: classes.textFieldLittleInput,
           }}
           InputProps={{ className: classes.textFieldBigInput }}
-          defaultValue={`${comment ? comment : ""}`}
-        ></TextField>
+          defaultValue={tfValue}
+          onKeyDown={handleKeyDown}
+        >
+          {comment ? comment : tfValue}
+        </TextField>
       </Collapse>
       <ListItem
         onClick={() => {
-          handleClick(componentKey);
+          handleCodeBlockClick(funcID);
         }}
         className={classes.listItem}
-        key={`li-${componentKey}`}
-        value={componentKey}
+        key={`li-${funcID}`}
+        value={funcID}
       >
         <Highlight
-          key={`code-${componentKey}`}
+          key={`code-${funcID}`}
           className={classes.highlight}
           language={language}
           styles={{
