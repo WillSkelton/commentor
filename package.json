@@ -1,6 +1,7 @@
 {
   "name": "commentor",
-  "main": "./public/electron.js",
+  "main": "public/electron.js",
+  "author": "Will Skelton",
   "homepage": "./",
   "version": "0.1.0",
   "private": true,
@@ -46,13 +47,13 @@
     ]
   },
   "build": {
-    "appId": "nonExistentID",
     "files": [
-      "build/**/*",
-      "node_modules/**/*"
+      "dist/**/*",
+      "node_modules/**/*",
+      "public/electron.js"
     ],
     "directories": {
-      "buildResources": "assets"
+      "buildResources": "public"
     }
   }
 }

@@ -10,7 +10,6 @@ import { colors, pallet } from "./services";
 
 import { Editor } from "./components/Editor";
 import { FileViewer } from "./components/FileViewer";
-import Options from "./components/Options";
 
 const useStyles = makeStyles({
   root: {

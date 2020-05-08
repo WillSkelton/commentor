@@ -70,7 +70,10 @@ const FileViewer = (props) => {
   const [activeFileIndex, setActiveFileIndex] = useState(0);
 
   const handleClick = () => {
-    getFiles("opendirectory", "/home/will/projects/go/src/commentor-backend/")
+    getFiles(
+      "opendirectory",
+      "/home/will/projects/go/src/commentor-backend/.testDirectories"
+    )
       .then((res) => {
         updateFiles(res);
       })
