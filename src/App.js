@@ -45,17 +45,6 @@ const useStyles = makeStyles({
   },
 });
 
-const sort = (files) => {
-  let sortedFiles = {};
-  Object.keys(files).map((FileID, idx) => {
-    if (!sortedFiles[files[FileID].Path]) {
-      sortedFiles[files[FileID].Path] = [];
-    }
-    sortedFiles[files[FileID].Path] = files[FileID].Functions;
-  });
-  return sortedFiles;
-};
-
 const theme = createMuiTheme(pallet);
 
 const App = () => {
@@ -74,16 +63,34 @@ const App = () => {
   };
 
   const updateFiles = (newFiles) => {
-    // const sortedFiles = sort(newFiles);
-    // setFiles(sortedFiles);
+    // newFiles = {
+    //   FileID: {
+    //     Path: "",
+    //     ...
+    //   }
+    // }
+
     setFiles(newFiles);
 
-    // const firstFile = Object.values(sortedFiles)[0];
     const firstFile = Object.values(newFiles)[0];
+
+    // console.log(newFiles[24]);
+    // console.log(firstFile);
 
     if (firstFile) {
       setActiveFile(firstFile);
     }
+  };
+
+  const patchFiles = (newFile) => {
+    // newFile ={
+    //   Path: "",
+    //   FileID: ,
+    //   ...
+    // }
+    const updatedFiles = files;
+    updatedFiles[newFile.FileID] = newFile;
+    setFiles(updatedFiles);
   };
 
   return (
@@ -105,7 +112,7 @@ const App = () => {
             updateFiles={updateFiles}
           />
         )}
-        <Editor activeFile={activeFile} />
+        <Editor patchFiles={patchFiles} activeFile={activeFile} />
       </div>
     </ThemeProvider>
   );
