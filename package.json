@@ -1,0 +1,76 @@
+{
+  "name": "commentor",
+  "productName": "Commentor",
+  "main": "public/electron.js",
+  "author": "Will Skelton <william.f.skelton@gmail.com> (https://github.com/WillSkelton)",
+  "description": "This program is for people who want to write comments good and do other stuff good too.",
+  "homepage": "./",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.8.3",
+    "@material-ui/icons": "^4.9.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
+    "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.19.2",
+    "electron-installer-debian": "^3.0.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-highlight.js": "^1.0.7",
+    "react-scripts": "^3.4.0"
+  },
+  "devDependencies": {
+    "electron": "^8.2.5",
+    "electron-builder": "^22.6.0",
+    "electron-packager": "^14.2.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "electron-test": "electron .",
+    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "package-linux": "react-scripts build && electron-packager . commentor --overwrite --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds && cp -r /build /release-builds/commentor-linux-x64/resources/app/app",
+    "dist-linux": "electron-installer-debian --src release-builds/commentor-linux-x64/ --arch amd64 --config debian.json"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "build": {
+    "appId": "com.will.commentor",
+    "linux": {
+      "target": [
+        "AppImage",
+        "snap",
+        "deb"
+      ],
+      "category": "Utility"
+    },
+    "win": {
+      "target": "msi"
+    },
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*",
+      "public/*"
+    ],
+    "directories": {
+      "buildResources": "public"
+    }
+  }
+}
